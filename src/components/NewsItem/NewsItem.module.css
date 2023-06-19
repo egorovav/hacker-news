@@ -34,3 +34,19 @@
     color: white;
     border-radius: 20px;
 }
+
+.lowScore {
+    background-color: #8f8f8f;
+    color: white;
+}
+
+.midScore {
+    background-color: #ffd6a1;
+    color: #f88500;
+}
+
+.highScore {
+    background-color: #e7acff;
+    color: #c02cff;
+}
+
