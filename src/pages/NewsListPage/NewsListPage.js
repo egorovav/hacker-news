@@ -2,9 +2,9 @@ import {useEffect, useState} from "react";
 import {get} from "../../api/api";
 import {NewsItem} from "../../components/NewsItem/NewsItem";
 import {unixToDate} from "../../utils/utils";
-import style from './NewsList.module.css'
+import style from './NewsListPage.module.css'
 
-export function NewsList() {
+export function NewsListPage() {
     const [news, setNews] = useState([]);
 
     useEffect(() => { getNewsList() }, []);
@@ -19,7 +19,6 @@ export function NewsList() {
         );
 
         setNews(newsList);
-        console.log(newsList);
     }
 
     return (
@@ -32,9 +31,8 @@ export function NewsList() {
                             key={item.id}
                             id={item.id}
                             title={item.title}
-                            url={item.url}
                             username={item.by}
-                            date={unixToDate(item.time)}
+                            date={item.time}
                             score={item.score}
                         />
                     )
