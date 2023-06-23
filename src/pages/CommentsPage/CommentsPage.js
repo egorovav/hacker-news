@@ -1,7 +1,7 @@
 import {Link, useParams} from "react-router-dom";
 import {NewsItem} from "../../components/NewsItem/NewsItem";
 import {get} from "../../api/api";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {CommentsWrapper} from "../../components/Comments/CommentsWrapper";
 
 export function CommentsPage() {
@@ -9,18 +9,7 @@ export function CommentsPage() {
     const [news, setNews] = useState();
     const[comments, setComments] = useState();
 
-    async function getNewsData(newsId) {
-        const newsData = await get(
-            `https://hacker-news.firebaseio.com/v0/item/${newsId}.json?print=pretty`);
-        setNews(newsData);
-        if(newsData?.kids) {
-            const commentData = await getNewsComments(newsData.kids);
-            setComments(commentData);
-            console.log(commentData);
-        }
-    }
-
-    async function getNewsComments(commentsIds) {
+    const getNewsComments = useCallback(async (commentsIds) => {
         return await Promise.all(commentsIds.map(async (id) => {
                 const comment = await get(`https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`)
                 if (comment?.kids) {
@@ -29,11 +18,23 @@ export function CommentsPage() {
                 return comment
             })
         );
-    }
+    }, []);
+
+    const getNewsData = useCallback( async() => {
+        const newsData = await get(
+            `https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`);
+        setNews(newsData);
+        if(newsData?.kids) {
+            const commentData = await getNewsComments(newsData.kids);
+            setComments(commentData);
+            console.log(commentData);
+        }
+    }, [id, getNewsComments]);
+
 
     useEffect(() => {
-        getNewsData(id);
-    }, [id]);
+        getNewsData();
+    }, [getNewsData]);
 
     return (
         <div>
