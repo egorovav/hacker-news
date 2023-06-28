@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import {get} from "../../api/api";
 import {NewsItem} from "../../components/NewsItem/NewsItem";
-import {unixToDate} from "../../utils/utils";
 import style from './NewsListPage.module.css'
 
 export function NewsListPage() {

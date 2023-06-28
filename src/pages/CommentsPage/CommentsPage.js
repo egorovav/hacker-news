@@ -11,11 +11,12 @@ export function CommentsPage() {
 
     const getNewsComments = useCallback(async (commentsIds) => {
         return await Promise.all(commentsIds.map(async (id) => {
-                const comment = await get(`https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`)
-                if (comment?.kids) {
-                    comment.kids = await getNewsComments(comment.kids);
-                }
-                return comment
+                // const comment = await get(`https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`)
+                // if (comment?.kids) {
+                //     comment.kids = await getNewsComments(comment.kids);
+                // }
+                //return comment
+                return get(`https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`)
             })
         );
     }, []);
